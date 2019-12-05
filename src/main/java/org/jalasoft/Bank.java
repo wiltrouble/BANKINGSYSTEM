@@ -12,7 +12,7 @@ public class Bank {
      * Key: Represents the account number
      * Value: Represent the balance
      */
-    private HashMap<Integer, BankAccount> accounts;
+    private HashMap<Integer, Integer> accounts;
     private int nextAccount;
     private double interestRate;
 
@@ -64,18 +64,8 @@ public class Bank {
      * @return whether the amount was approved or not
      */
     public boolean authorizeLoan(int accountNumber, int loanAmount) {
-        /*
-        System.out.print("Enter loan amount: ");
-        
-        int loanAmmount = scanner.nextInt();
-        int balance = accounts.get(current);
-
-        if (balance >= loanAmmount / 2)
-            System.out.println("Your loan is approved");
-        else
-            System.out.println("Your loan is denied");
-        */
-        return true;
+        int balance = accounts.get(accountNumber);
+        return balance >= loanAmount / 2;
     }
 
     /**
