@@ -1,10 +1,26 @@
 package org.jalasoft;
 
+import java.util.HashMap;
+import java.util.Set;
+
 /**
  * Bank
  */
 public class Bank {
 
+    /**
+     * Key: Represents the account number
+     * Value: Represent the balance
+     */
+    private HashMap<Integer, Integer> accounts;
+    private int nextAccount;
+    private double interestRate;
+
+    public Bank() {
+        accounts = new HashMap<>();
+        nextAccount = 0;
+        interestRate = 0.01;
+    }
     
     /**
      * Create a new account and assign it an account number and sets the balance to 0
@@ -12,12 +28,9 @@ public class Bank {
      * @return the account number
      */
     public int newAccount() {
-        /*
-        current = nextAccount++;
-        accounts.put(current, 0);
-        System.out.println("Your new account number is " + current);
-        */
-        return 1;
+        int currentAccount = nextAccount++;
+        accounts.put(currentAccount, 0);
+        return currentAccount;
     }
 
     /**
@@ -26,25 +39,20 @@ public class Bank {
      * @return the balance of the given account
      */
     public int getBalance(int accountNumber) {
-        return 0;
+        return accounts.get(accountNumber);
     }
 
     /**
      * This increases the amount of balance in a given account
-     * 
+     *  
      * @param accountNumber the account where the amount will be deposited
      * @param amount the amount of money that will increase the balance
      * 
      * @return if the transaction was executed successfully
      */
     public boolean deposit(int accountNumber, int amount) {
-        /*
-        System.out.print("Enter deposit amount: ");
-        int amount = scanner.nextInt();
-        int balance = accounts.get(current);
-        accounts.put(current, balance + amount);
-        */
-
+        int currentBalance = accounts.get(accountNumber);
+        accounts.put(accountNumber, currentBalance + amount);
         return true;
     }
 
@@ -56,45 +64,37 @@ public class Bank {
      * @return whether the amount was approved or not
      */
     public boolean authorizeLoan(int accountNumber, int loanAmount) {
-        /*
-        System.out.print("Enter loan amount: ");
-        
-        int loanAmmount = scanner.nextInt();
-        int balance = accounts.get(current);
-
-        if (balance >= loanAmmount / 2)
-            System.out.println("Your loan is approved");
-        else
-            System.out.println("Your loan is denied");
-        */
-        return true;
+        int balance = accounts.get(accountNumber);
+        return balance >= loanAmount / 2;
     }
 
     /**
      * This method deposit a certain amount of money to all accounts based on a interest rate
+     * 
      * @return whether the interest payment process was successful or not
      */
     public boolean payInterest() {
-        /*
-        Set<Integer> accountIndetifiers = accounts.keySet();
-        for (int indetifier : accountIndetifiers) {
-            int balance = accounts.get(indetifier);
-            int newbalance = (int) (balance * (1 + interestRate));
-            accounts.put(indetifier, newbalance);
+        Set<Integer> accountNumbers = accounts.keySet();
+
+        for(int accountNumber : accountNumbers) {
+            int currentBalance = accounts.get(accountNumber);
+            int newBalance = (int) (currentBalance * (1 + interestRate));
+            accounts.put(accountNumber, newBalance);
         }
-        */
-        return false;
+        return true;
     }
 
     @Override
     public String toString() {
-        /*
-        Set<Integer> accountIndetifiers = accounts.keySet();
-        System.out.println("The bank has " + accountIndetifiers.size() + " accounts.");
-        for (int indentifier : accountIndetifiers)
-            System.out.println("\tAccount " + indentifier + ": balance=" + accounts.get(indentifier));
-            
-        */
-        return "";
+        StringBuilder builder = new StringBuilder();
+        Set<Integer> accountNumber = accounts.keySet();
+        builder.append("The bank has").append(accountNumber.size()).append(" account.");
+        for (int identifier : accountNumber) {
+            builder
+                .append(System.lineSeparator())
+                .append("\tAccount ").append(identifier)
+                .append(": balance=").append(accounts.get(identifier));
+        }
+        return builder.toString();
     }
 }
